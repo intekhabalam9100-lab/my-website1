@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>BAY LEAF | Premium Dining Experience</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+
+<style>
+
+/* RESET */
+*{margin:0;padding:0;box-sizing:border-box;}
+
+body{
+  font-family:Inter;
+  background:#070b0a;
+  color:#fff;
+  overflow-x:hidden;
+}
+
+/* CINEMATIC LIGHT */
+body::before{
+  content:"";
+  position:fixed;
+  width:100%;
+  height:100%;
+  background:radial-gradient(circle at 50% 20%, rgba(212,175,55,0.18), transparent 60%);
+  pointer-events:none;
+}
+
+/* HERO */
+.hero{
+  height:100vh;
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  align-items:center;
+  text-align:center;
+  position:relative;
+}
+
+h1{
+  font-family:"Playfair Display";
+  font-size:80px;
+  color:#d4af37;
+  letter-spacing:3px;
+}
+
+.hero p{
+  opacity:0.7;
+  margin-top:10px;
+}
+
+.btn{
+  margin-top:25px;
+  padding:14px 30px;
+  background:#d4af37;
+  color:#000;
+  border-radius:40px;
+  border:none;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+.btn:hover{
+  transform:scale(1.08);
+  box-shadow:0 0 25px #d4af37;
+}
+
+/* SECTIONS */
+section{
+  padding:100px 20px;
+  text-align:center;
+}
+
+/* MENU */
+.filters{
+  margin-bottom:30px;
+}
+
+.filters button{
+  margin:5px;
+  padding:10px 16px;
+  border:none;
+  border-radius:20px;
+  cursor:pointer;
+  background:#1c1c1c;
+  color:white;
+  transition:0.3s;
+}
+
+.filters button:hover{
+  background:#d4af37;
+  color:#000;
+}
+
+.menu-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  gap:20px;
+  max-width:1000px;
+  margin:auto;
+}
+
+.item{
+  background:#111814;
+  padding:15px;
+  border-radius:15px;
+  transition:0.4s;
+}
+
+.item:hover{
+  transform:translateY(-8px);
+}
+
+.item img{
+  width:100%;
+  border-radius:10px;
+  margin-bottom:10px;
+}
+
+/* BOOKING */
+form{
+  max-width:420px;
+  margin:auto;
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+
+input,textarea{
+  padding:12px;
+  border:none;
+  border-radius:8px;
+  outline:none;
+}
+
+textarea{resize:none;height:80px;}
+
+.small{
+  opacity:0.7;
+  font-size:14px;
+}
+
+/* ANIMATION */
+.fade{
+  opacity:0;
+  transform:translateY(60px);
+}
+
+/* MOBILE */
+@media(max-width:768px){
+  h1{font-size:42px;}
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <h1 class="fade">BAY LEAF</h1>
+  <p class="fade">A Cinematic Premium Dining Experience</p>
+  <button class="btn fade" onclick="scrollToMenu()">Explore Menu</button>
+</section>
+
+<!-- MENU -->
+<section id="menu">
+  <h2 class="fade" style="font-family:'Playfair Display';font-size:40px;color:#d4af37;">Our Signature Menu</h2>
+
+  <div class="filters fade">
+    <button onclick="filterMenu('all')">All</button>
+    <button onclick="filterMenu('thai')">Thai</button>
+    <button onclick="filterMenu('indian')">Indian</button>
+    <button onclick="filterMenu('chinese')">Chinese</button>
+  </div>
+
+  <div class="menu-grid fade">
+
+    <div class="item" data-cat="thai">
+      <img src="https://images.unsplash.com/photo-1604908176997-125f25cc6f3d">
+      <h3>Thai Basil Chicken</h3>
+      <p>৳350</p>
+    </div>
+
+    <div class="item" data-cat="indian">
+      <img src="https://images.unsplash.com/photo-1603898037225-1bfe1a4a4d4d">
+      <h3>Butter Chicken</h3>
+      <p>৳420</p>
+    </div>
+
+    <div class="item" data-cat="chinese">
+      <img src="https://images.unsplash.com/photo-1589308078054-8323c8b7c3f4">
+      <h3>Fried Rice</h3>
+      <p>৳280</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- BOOKING -->
+<section id="booking">
+  <h2 class="fade" style="font-family:'Playfair Display';font-size:40px;color:#d4af37;">Reserve Your Table</h2>
+
+  <p class="small fade">We will confirm your booking instantly via WhatsApp</p>
+
+  <form class="fade" onsubmit="sendBooking(event)">
+    <input id="name" placeholder="Your Name" required>
+    <input id="date" type="date" required>
+    <input id="people" type="number" placeholder="Guests" required>
+    <textarea id="msg" placeholder="Special Request"></textarea>
+
+    <button class="btn" type="submit">Book Now</button>
+  </form>
+</section>
+
+<script>
+
+// SCROLL TO MENU
+function scrollToMenu(){
+  document.getElementById("menu").scrollIntoView({behavior:"smooth"});
+}
+
+// MENU FILTER
+function filterMenu(cat){
+  const items=document.querySelectorAll(".item");
+
+  items.forEach(i=>{
+    if(cat==="all" || i.dataset.cat===cat){
+      i.style.display="block";
+    }else{
+      i.style.display="none";
+    }
+  });
+}
+
+// BOOKING → WhatsApp
+function sendBooking(e){
+  e.preventDefault();
+
+  const name=document.getElementById("name").value;
+  const date=document.getElementById("date").value;
+  const people=document.getElementById("people").value;
+  const msg=document.getElementById("msg").value;
+
+  const text=
+`🍽️ BAY LEAF Booking
+Name: ${name}
+Date: ${date}
+Guests: ${people}
+Note: ${msg}`;
+
+  const url=`https://wa.me/8801707075185?text=${encodeURIComponent(text)}`;
+  window.open(url,"_blank");
+}
+
+// GSAP ANIMATION
+gsap.registerPlugin(ScrollTrigger);
+
+gsap.utils.toArray(".fade").forEach(el=>{
+  gsap.to(el,{
+    opacity:1,
+    y:0,
+    duration:1.2,
+    scrollTrigger:{
+      trigger:el,
+      start:"top 85%"
+    }
+  });
+});
+
+</script>
+
+</body>
+</html>
